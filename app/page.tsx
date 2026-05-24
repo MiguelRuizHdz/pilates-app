@@ -152,19 +152,15 @@ export default function Home() {
             <div className="block md:hidden divide-y divide-[#F4F1E9]">
               {scheduleData.map((session, i) => (
                 <div key={i} className="p-6 hover:bg-[#FDFBF7] transition-colors flex flex-col gap-5">
-                  <div className="flex items-center gap-5">
-                    {/* Time Badge */}
-                    <div className="bg-[#FDFBF7] border border-[#F4F1E9] text-primary px-4 py-3 rounded-2xl font-bold text-center min-w-[90px] shadow-sm">
-                      <div className="text-lg leading-none">{session.time.split(' ')[0]}</div>
-                      <div className="text-[10px] font-semibold uppercase tracking-wider mt-1.5 opacity-60">{session.time.split(' ')[1]}</div>
+                  <div>
+                    <div className="flex items-baseline gap-1.5 mb-3">
+                      <span className="text-4xl font-bold text-primary tracking-tight leading-none">{session.time.split(' ')[0]}</span>
+                      <span className="text-sm font-bold text-secondary uppercase">{session.time.split(' ')[1]}</span>
                     </div>
-                    {/* Details */}
-                    <div>
-                      <div className="text-lg font-bold text-primary leading-tight">{session.name}</div>
-                      <div className="text-sm font-medium text-gray-500 mt-1.5">Con {session.instructor}</div>
-                    </div>
+                    <div className="text-xl font-bold text-gray-800 leading-tight mb-1">{session.name}</div>
+                    <div className="text-gray-500 font-medium">Instructor: {session.instructor}</div>
                   </div>
-                  <a href={`mailto:hola@pilatesstudio.com?subject=Reserva para clase de ${session.name} a las ${session.time}`} className="w-full text-center text-sm font-medium text-primary border border-primary py-3 rounded-full hover:bg-primary hover:text-white transition-all">
+                  <a href={`mailto:hola@pilatesstudio.com?subject=Reserva para clase de ${session.name} a las ${session.time}`} className="w-full text-center font-medium text-primary border border-primary py-3.5 rounded-full hover:bg-primary hover:text-white transition-all mt-1">
                     Reservar lugar
                   </a>
                 </div>
