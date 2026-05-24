@@ -151,19 +151,21 @@ export default function Home() {
             {/* Mobile Cards */}
             <div className="block md:hidden divide-y divide-[#F4F1E9]">
               {scheduleData.map((session, i) => (
-                <div key={i} className="p-6 hover:bg-[#FDFBF7] transition-colors flex flex-col gap-4">
-                  <div className="flex justify-between items-start">
+                <div key={i} className="p-6 hover:bg-[#FDFBF7] transition-colors flex flex-col gap-5">
+                  <div className="flex items-center gap-5">
+                    {/* Time Badge */}
+                    <div className="bg-[#FDFBF7] border border-[#F4F1E9] text-primary px-4 py-3 rounded-2xl font-bold text-center min-w-[90px] shadow-sm">
+                      <div className="text-lg leading-none">{session.time.split(' ')[0]}</div>
+                      <div className="text-[10px] font-semibold uppercase tracking-wider mt-1.5 opacity-60">{session.time.split(' ')[1]}</div>
+                    </div>
+                    {/* Details */}
                     <div>
-                      <div className="text-primary font-bold text-lg">{session.time}</div>
-                      <div className="text-gray-600 font-medium mt-1">{session.name}</div>
-                      <div className="text-gray-500 text-sm mt-1 flex items-center gap-2">
-                        <span className="text-secondary/80">👤</span>
-                        {session.instructor}
-                      </div>
+                      <div className="text-lg font-bold text-primary leading-tight">{session.name}</div>
+                      <div className="text-sm font-medium text-gray-500 mt-1.5">Con {session.instructor}</div>
                     </div>
                   </div>
-                  <a href={`mailto:hola@pilatesstudio.com?subject=Reserva para clase de ${session.name} a las ${session.time}`} className="w-full text-center text-sm font-medium text-white bg-primary py-3 rounded-full hover:bg-secondary transition-colors shadow-sm">
-                    Reservar Clase
+                  <a href={`mailto:hola@pilatesstudio.com?subject=Reserva para clase de ${session.name} a las ${session.time}`} className="w-full text-center text-sm font-medium text-primary border border-primary py-3 rounded-full hover:bg-primary hover:text-white transition-all">
+                    Reservar lugar
                   </a>
                 </div>
               ))}
