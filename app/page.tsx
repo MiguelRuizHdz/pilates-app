@@ -2,6 +2,35 @@
 
 import { useState, useEffect, useRef } from "react";
 
+// ─── FAQ Data ─────────────────────────────────────────────────────────────────
+
+const faqs = [
+  {
+    q: "¿Necesito experiencia previa para tomar clases?",
+    a: "No, para nada. Contamos con clases para todos los niveles, desde principiantes absolutos hasta practicantes avanzados. Al inscribirte, nuestros instructores hacen una evaluación inicial para ubicarte en el grupo ideal.",
+  },
+  {
+    q: "¿Qué ropa debo usar?",
+    a: "Ropa cómoda y ajustada que permita libertad de movimiento: mallas o leggings, top o playera entallada. Para Reformer se recomienda usar calcetines antideslizantes (nosotros los vendemos en recepción).",
+  },
+  {
+    q: "¿Con cuánta anticipación debo reservar?",
+    a: "Recomendamos reservar con al menos 24 horas de anticipación, especialmente para clases de Reformer que tienen cupo limitado (máx. 6 personas). Las reservas de último momento están sujetas a disponibilidad.",
+  },
+  {
+    q: "¿Puedo cancelar o cambiar mi reserva?",
+    a: "Sí, puedes cancelar o reprogramar hasta 4 horas antes de la clase sin ningún costo. Cancelaciones tardías o no-shows descuentan la clase de tu plan.",
+  },
+  {
+    q: "¿Aceptan Wellhub / Gympass?",
+    a: "¡Sí! Somos estudio afiliado a Wellhub. Dependiendo de tu plan corporativo, puedes asistir sin costo adicional o con un copago mínimo. Solo busca \"Pilates Studio\" en la app y reserva directamente desde ahí.",
+  },
+  {
+    q: "¿Los planes tienen contrato de permanencia?",
+    a: "No. Todos nuestros planes son mensuales sin contrato forzoso. Puedes pausar o cancelar en cualquier momento antes de tu siguiente fecha de renovación.",
+  },
+];
+
 // ─── Data ────────────────────────────────────────────────────────────────────
 
 const days = ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"];
@@ -144,17 +173,60 @@ function Stars({ count }: { count: number }) {
   );
 }
 
+// ─── FAQ Accordion Item ───────────────────────────────────────────────────────
+
+function FaqItem({ q, a }: { q: string; a: string }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="border-b border-[#F4F1E9] last:border-0">
+      <button
+        onClick={() => setOpen(!open)}
+        className="w-full text-left py-6 flex items-center justify-between gap-4 group"
+      >
+        <span className="font-semibold text-primary group-hover:text-secondary transition-colors">{q}</span>
+        <span
+          className={`flex-shrink-0 w-8 h-8 rounded-full border border-[#F4F1E9] flex items-center justify-center transition-all duration-300 ${
+            open ? "bg-primary border-primary rotate-180" : "bg-white"
+          }`}
+        >
+          <svg
+            className={`w-4 h-4 transition-colors ${open ? "text-white" : "text-primary"}`}
+            fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+          </svg>
+        </span>
+      </button>
+      <div
+        className={`overflow-hidden transition-all duration-300 ease-in-out ${
+          open ? "max-h-48 pb-6 opacity-100" : "max-h-0 opacity-0"
+        }`}
+      >
+        <p className="text-gray-600 leading-relaxed">{a}</p>
+      </div>
+    </div>
+  );
+}
+
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function Home() {
   const [activeDay, setActiveDay] = useState("Lun");
+  const [menuOpen, setMenuOpen] = useState(false);
   const sessions = scheduleByDay[activeDay] ?? [];
 
-  // Get today's day abbreviation
+  // Auto-select today
   useEffect(() => {
     const dayMap = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"];
     const today = dayMap[new Date().getDay()];
     if (scheduleByDay[today]) setActiveDay(today);
+  }, []);
+
+  // Close menu on resize to desktop
+  useEffect(() => {
+    const handleResize = () => { if (window.innerWidth >= 768) setMenuOpen(false); };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   return (
@@ -164,46 +236,93 @@ export default function Home() {
       <nav className="fixed w-full z-50 bg-[#FDFBF7]/90 backdrop-blur-md border-b border-[#F4F1E9]">
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
           <div className="text-2xl font-bold text-primary tracking-tight">Pilates Studio</div>
+
+          {/* Desktop links */}
           <ul className="hidden md:flex gap-8 text-sm font-medium text-gray-600">
             <li><a href="#clases" className="hover:text-secondary transition-colors">Clases</a></li>
             <li><a href="#horarios" className="hover:text-secondary transition-colors">Horarios</a></li>
             <li><a href="#precios" className="hover:text-secondary transition-colors">Precios</a></li>
             <li><a href="#wellhub" className="hover:text-secondary transition-colors">Wellhub</a></li>
           </ul>
-          <a href="#precios" className="bg-primary text-white px-6 py-2.5 rounded-full text-sm font-medium hover:bg-secondary transition-all hover:-translate-y-0.5 shadow-sm inline-block">
-            Reserva ahora
-          </a>
+
+          <div className="flex items-center gap-3">
+            <a href="#precios" className="hidden md:inline-block bg-primary text-white px-6 py-2.5 rounded-full text-sm font-medium hover:bg-secondary transition-all hover:-translate-y-0.5 shadow-sm">
+              Reserva ahora
+            </a>
+            {/* Hamburger */}
+            <button
+              onClick={() => setMenuOpen(!menuOpen)}
+              className="md:hidden flex flex-col justify-center items-center w-10 h-10 gap-1.5 rounded-xl hover:bg-[#F4F1E9] transition-colors"
+              aria-label="Abrir menú"
+            >
+              <span className={`block h-0.5 w-5 bg-primary rounded transition-all duration-300 origin-center ${ menuOpen ? "rotate-45 translate-y-2" : ""}`} />
+              <span className={`block h-0.5 w-5 bg-primary rounded transition-all duration-300 ${ menuOpen ? "opacity-0" : ""}`} />
+              <span className={`block h-0.5 w-5 bg-primary rounded transition-all duration-300 origin-center ${ menuOpen ? "-rotate-45 -translate-y-2" : ""}`} />
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile dropdown menu */}
+        <div className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out bg-[#FDFBF7] border-t border-[#F4F1E9] ${ menuOpen ? "max-h-80 opacity-100" : "max-h-0 opacity-0"}`}>
+          <ul className="flex flex-col px-6 py-4 gap-1">
+            {[
+              { href: "#clases", label: "Clases" },
+              { href: "#horarios", label: "Horarios" },
+              { href: "#precios", label: "Precios" },
+              { href: "#wellhub", label: "Wellhub" },
+            ].map((link) => (
+              <li key={link.href}>
+                <a
+                  href={link.href}
+                  onClick={() => setMenuOpen(false)}
+                  className="block py-3 text-sm font-medium text-gray-700 hover:text-secondary transition-colors border-b border-[#F4F1E9] last:border-0"
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))}
+            <li className="pt-3">
+              <a
+                href="#precios"
+                onClick={() => setMenuOpen(false)}
+                className="block w-full text-center bg-primary text-white py-3 rounded-full text-sm font-medium hover:bg-secondary transition-all"
+              >
+                Reserva ahora
+              </a>
+            </li>
+          </ul>
         </div>
       </nav>
 
       {/* ── Hero ── */}
-      <section className="relative pt-28 pb-16 lg:pt-48 lg:pb-32 px-6 flex-1 flex items-center bg-gradient-to-br from-[#FDFBF7] to-[#F4F1E9]">
-        <div className="absolute inset-0 z-0 overflow-hidden">
-          <div className="absolute top-0 right-0 w-1/2 h-full bg-secondary/10 rounded-l-[100px] blur-3xl" />
+      <section className="relative min-h-[90vh] flex items-center">
+        {/* Background image visible on ALL screens */}
+        <div className="absolute inset-0 z-0">
+          <img
+            src="https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&q=80"
+            alt="Pilates Studio"
+            className="w-full h-full object-cover"
+          />
+          {/* Dark overlay on mobile, lighter on desktop */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#FDFBF7]/95 via-[#FDFBF7]/80 to-[#FDFBF7]/20 lg:from-[#FDFBF7]/90 lg:via-[#FDFBF7]/60 lg:to-transparent" />
         </div>
-        <div className="max-w-7xl mx-auto w-full relative z-10 grid lg:grid-cols-2 gap-12 items-center">
-          <div className="max-w-2xl fade-in">
+
+        <div className="relative z-10 w-full max-w-7xl mx-auto px-6 pt-32 pb-20 lg:pt-48 lg:pb-32">
+          <div className="max-w-xl fade-in">
             <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-primary leading-[1.1] tracking-tight mb-6">
               Encuentra tu centro,<br />transforma tu cuerpo.
             </h1>
-            <p className="text-base sm:text-lg text-gray-600 mb-10 max-w-lg leading-relaxed">
+            <p className="text-base sm:text-lg text-gray-700 mb-10 max-w-lg leading-relaxed">
               Un espacio premium dedicado a tu bienestar. Clases personalizadas de Pilates para fortalecer, flexibilizar y equilibrar tu vida.
             </p>
             <div className="flex flex-wrap gap-4">
               <a href="#horarios" className="bg-primary text-white px-8 py-4 rounded-full font-medium hover:bg-secondary transition-all hover:-translate-y-1 shadow-lg hover:shadow-secondary/30 inline-block text-center">
                 Ver Horarios
               </a>
-              <a href="#clases" className="bg-transparent text-primary border border-primary px-8 py-4 rounded-full font-medium hover:bg-primary hover:text-white transition-all inline-block text-center">
+              <a href="#clases" className="bg-white/80 backdrop-blur-sm text-primary border border-primary/30 px-8 py-4 rounded-full font-medium hover:bg-primary hover:text-white transition-all inline-block text-center">
                 Conoce más
               </a>
             </div>
-          </div>
-          <div className="hidden lg:block relative h-[600px] w-full rounded-[2rem] overflow-hidden shadow-2xl fade-in" style={{ animationDelay: "0.2s" }}>
-            <img
-              src="https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&q=80"
-              alt="Pilates Studio"
-              className="absolute inset-0 w-full h-full object-cover"
-            />
           </div>
         </div>
       </section>
@@ -425,6 +544,29 @@ export default function Home() {
               </Reveal>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* ── FAQ ── */}
+      <section className="py-24 px-6 bg-white">
+        <div className="max-w-3xl mx-auto">
+          <Reveal className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-primary mb-6">Preguntas frecuentes</h2>
+            <div className="h-1 w-20 bg-secondary mx-auto rounded-full mb-6" />
+            <p className="text-gray-600">Todo lo que necesitas saber antes de tu primera clase.</p>
+          </Reveal>
+
+          <Reveal delay="delay-100">
+            <div className="bg-[#FDFBF7] rounded-3xl px-8 border border-[#F4F1E9]">
+              {faqs.map((faq, i) => (
+                <FaqItem key={i} q={faq.q} a={faq.a} />
+              ))}
+            </div>
+          </Reveal>
+
+          <Reveal className="text-center mt-10" delay="delay-200">
+            <p className="text-gray-500 text-sm">¿Tienes otra pregunta? <a href="mailto:hola@pilatesstudio.com" className="text-secondary font-medium hover:underline">Escríbenos directamente</a></p>
+          </Reveal>
         </div>
       </section>
 
