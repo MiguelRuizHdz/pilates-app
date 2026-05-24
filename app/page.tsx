@@ -1,5 +1,12 @@
 import Image from "next/image";
 
+const scheduleData = [
+  { time: '07:00 AM', name: 'Pilates Reformer', instructor: 'Ana S.' },
+  { time: '08:30 AM', name: 'Pilates Mat', instructor: 'Laura M.' },
+  { time: '18:00 PM', name: 'Pilates & Barre', instructor: 'Carlos T.' },
+  { time: '19:30 PM', name: 'Pilates Reformer', instructor: 'Ana S.' },
+];
+
 export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">
@@ -113,7 +120,8 @@ export default function Home() {
           </div>
           
           <div className="bg-white rounded-[2rem] shadow-sm overflow-hidden border border-[#F4F1E9] fade-in">
-            <div className="overflow-x-auto">
+            {/* Desktop Table */}
+            <div className="hidden md:block overflow-x-auto">
               <table className="w-full text-left border-collapse">
                 <thead>
                   <tr className="bg-primary text-white">
@@ -124,12 +132,7 @@ export default function Home() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-[#F4F1E9]">
-                  {[
-                    { time: '07:00 AM', name: 'Pilates Reformer', instructor: 'Ana S.' },
-                    { time: '08:30 AM', name: 'Pilates Mat', instructor: 'Laura M.' },
-                    { time: '18:00 PM', name: 'Pilates & Barre', instructor: 'Carlos T.' },
-                    { time: '19:30 PM', name: 'Pilates Reformer', instructor: 'Ana S.' },
-                  ].map((session, i) => (
+                  {scheduleData.map((session, i) => (
                     <tr key={i} className="hover:bg-[#FDFBF7] transition-colors">
                       <td className="py-5 px-8 font-medium text-primary">{session.time}</td>
                       <td className="py-5 px-8 text-gray-600">{session.name}</td>
@@ -143,6 +146,27 @@ export default function Home() {
                   ))}
                 </tbody>
               </table>
+            </div>
+
+            {/* Mobile Cards */}
+            <div className="block md:hidden divide-y divide-[#F4F1E9]">
+              {scheduleData.map((session, i) => (
+                <div key={i} className="p-6 hover:bg-[#FDFBF7] transition-colors flex flex-col gap-4">
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <div className="text-primary font-bold text-lg">{session.time}</div>
+                      <div className="text-gray-600 font-medium mt-1">{session.name}</div>
+                      <div className="text-gray-500 text-sm mt-1 flex items-center gap-2">
+                        <span className="text-secondary/80">👤</span>
+                        {session.instructor}
+                      </div>
+                    </div>
+                  </div>
+                  <a href={`mailto:hola@pilatesstudio.com?subject=Reserva para clase de ${session.name} a las ${session.time}`} className="w-full text-center text-sm font-medium text-white bg-primary py-3 rounded-full hover:bg-secondary transition-colors shadow-sm">
+                    Reservar Clase
+                  </a>
+                </div>
+              ))}
             </div>
           </div>
         </div>
