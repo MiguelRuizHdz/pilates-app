@@ -295,45 +295,65 @@ export default function Home() {
       </nav>
 
       {/* ── Hero ── */}
-      <section className="relative min-h-[90vh] flex items-center">
-        {/* Background image visible on ALL screens */}
-        <div className="absolute inset-0 z-0">
-          <img
-            src="https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&q=80"
-            alt="Pilates Studio"
-            className="w-full h-full object-cover"
-          />
-          {/* Dark overlay on mobile, lighter on desktop */}
-          <div className="absolute inset-0 bg-gradient-to-r from-[#FDFBF7]/95 via-[#FDFBF7]/80 to-[#FDFBF7]/20 lg:from-[#FDFBF7]/90 lg:via-[#FDFBF7]/60 lg:to-transparent" />
-        </div>
+      <section className="relative pt-28 pb-16 lg:pt-44 lg:pb-28 px-6 bg-gradient-to-br from-[#FDFBF7] via-[#F4F1E9] to-[#eae6db] overflow-hidden">
+        {/* Decorative blobs */}
+        <div className="absolute top-0 right-0 w-[40%] h-full bg-secondary/10 rounded-l-[120px] blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-48 h-48 bg-secondary/10 rounded-full blur-2xl pointer-events-none" />
 
-        <div className="relative z-10 w-full max-w-7xl mx-auto px-6 pt-32 pb-20 lg:pt-48 lg:pb-32">
-          <div className="max-w-xl fade-in">
-            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-primary leading-[1.1] tracking-tight mb-6">
+        <div className="max-w-7xl mx-auto w-full relative z-10 grid lg:grid-cols-2 gap-10 items-center">
+          {/* Text */}
+          <div className="fade-in">
+            <span className="inline-block text-xs font-bold uppercase tracking-widest text-secondary mb-6 bg-secondary/10 px-4 py-1.5 rounded-full">
+              Estudio Premium de Pilates
+            </span>
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-primary leading-[1.1] tracking-tight mb-6">
               Encuentra tu centro,<br />transforma tu cuerpo.
             </h1>
-            <p className="text-base sm:text-lg text-gray-700 mb-10 max-w-lg leading-relaxed">
+            <p className="text-base sm:text-lg text-gray-600 mb-10 max-w-lg leading-relaxed">
               Un espacio premium dedicado a tu bienestar. Clases personalizadas de Pilates para fortalecer, flexibilizar y equilibrar tu vida.
             </p>
             <div className="flex flex-wrap gap-4">
               <a href="#horarios" className="bg-primary text-white px-8 py-4 rounded-full font-medium hover:bg-secondary transition-all hover:-translate-y-1 shadow-lg hover:shadow-secondary/30 inline-block text-center">
                 Ver Horarios
               </a>
-              <a href="#clases" className="bg-white/80 backdrop-blur-sm text-primary border border-primary/30 px-8 py-4 rounded-full font-medium hover:bg-primary hover:text-white transition-all inline-block text-center">
+              <a href="#clases" className="bg-transparent text-primary border-2 border-primary/30 px-8 py-4 rounded-full font-medium hover:border-primary hover:bg-primary hover:text-white transition-all inline-block text-center">
                 Conoce más
               </a>
+            </div>
+          </div>
+
+          {/* Image — visible on ALL screens */}
+          <div className="relative fade-in" style={{ animationDelay: "0.2s" }}>
+            <div className="relative h-[340px] sm:h-[420px] lg:h-[580px] w-full rounded-[2rem] overflow-hidden shadow-2xl">
+              <img
+                src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&q=80&w=1200"
+                alt="Clase de Pilates"
+                className="w-full h-full object-cover object-center"
+              />
+              {/* Subtle tint at bottom */}
+              <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-primary/40 to-transparent" />
+            </div>
+            {/* Floating badge */}
+            <div className="absolute -bottom-4 -left-4 bg-white rounded-2xl px-5 py-3 shadow-xl border border-[#F4F1E9] flex items-center gap-3">
+              <div className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center flex-shrink-0">
+                <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+              </div>
+              <div>
+                <div className="text-xs text-gray-400">Plazas hoy</div>
+                <div className="text-sm font-bold text-primary">Disponibles ✦</div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* ── Classes ── */}
-      <section id="clases" className="py-24 px-6 bg-white">
+      <section id="clases" className="py-24 px-6 bg-[#2D312E]">
         <div className="max-w-7xl mx-auto">
           <Reveal className="text-center max-w-2xl mx-auto mb-16">
-            <h2 className="text-4xl font-bold text-primary mb-6">Nuestras Clases</h2>
+            <h2 className="text-4xl font-bold text-white mb-6">Nuestras Clases</h2>
             <div className="h-1 w-20 bg-secondary mx-auto rounded-full mb-6" />
-            <p className="text-gray-600">Diseñadas para todos los niveles. Encuentra la disciplina perfecta para tus objetivos físicos y mentales.</p>
+            <p className="text-gray-400">Diseñadas para todos los niveles. Encuentra la disciplina perfecta para tus objetivos físicos y mentales.</p>
           </Reveal>
 
           <div className="grid md:grid-cols-3 gap-8">
@@ -343,14 +363,14 @@ export default function Home() {
               { img: "/barre.png", title: "Pilates & Barre", desc: "Una fusión dinámica de Pilates, danza y entrenamiento funcional. Tonifica y mejora tu resistencia cardiovascular de forma divertida.", delay: "delay-300" },
             ].map((card) => (
               <Reveal key={card.title} delay={card.delay}>
-                <div className="group rounded-3xl overflow-hidden bg-[#FDFBF7] shadow-sm hover:shadow-xl transition-all hover:-translate-y-2 h-full">
+                <div className="group rounded-3xl overflow-hidden bg-[#FDFBF7] shadow-lg hover:shadow-2xl transition-all hover:-translate-y-2 h-full">
                   <div className="h-64 relative overflow-hidden">
                     <img src={card.img} alt={card.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                   </div>
                   <div className="p-8">
                     <h3 className="text-2xl font-bold text-primary mb-3">{card.title}</h3>
                     <p className="text-gray-600 mb-6">{card.desc}</p>
-                    <a href="#horarios" className="font-medium text-primary hover:text-secondary inline-flex items-center transition-colors">
+                    <a href="#horarios" className="font-medium text-secondary hover:text-primary inline-flex items-center transition-colors">
                       Ver horarios &rarr;
                     </a>
                   </div>
@@ -456,7 +476,7 @@ export default function Home() {
       </section>
 
       {/* ── Pricing ── */}
-      <section id="precios" className="py-24 px-6 bg-white">
+      <section id="precios" className="py-24 px-6 bg-[#FDFBF7]">
         <div className="max-w-6xl mx-auto">
           <Reveal className="text-center max-w-2xl mx-auto mb-16">
             <h2 className="text-4xl font-bold text-primary mb-6">Planes y Precios</h2>
@@ -470,7 +490,7 @@ export default function Home() {
                 <div className={`relative rounded-3xl p-8 border transition-all hover:-translate-y-1 hover:shadow-xl ${
                   plan.highlight
                     ? "bg-primary text-white border-primary shadow-2xl scale-105"
-                    : "bg-[#FDFBF7] border-[#F4F1E9] text-primary"
+                    : "bg-white border-[#F4F1E9] text-primary"
                 }`}>
                   {plan.highlight && (
                     <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-secondary text-white text-xs font-bold px-4 py-1.5 rounded-full shadow-md tracking-wide uppercase">
@@ -517,7 +537,7 @@ export default function Home() {
       </section>
 
       {/* ── Testimonials ── */}
-      <section className="py-24 px-6 bg-[#FDFBF7]">
+      <section className="py-24 px-6 bg-[#8A9A86]/15">
         <div className="max-w-6xl mx-auto">
           <Reveal className="text-center max-w-2xl mx-auto mb-16">
             <h2 className="text-4xl font-bold text-primary mb-6">Lo que dicen nuestras alumnas</h2>
@@ -528,7 +548,7 @@ export default function Home() {
           <div className="grid md:grid-cols-3 gap-8">
             {testimonials.map((t, i) => (
               <Reveal key={t.name} delay={i === 0 ? "delay-100" : i === 1 ? "delay-200" : "delay-300"}>
-                <div className="bg-white rounded-3xl p-8 shadow-sm border border-[#F4F1E9] hover:shadow-lg transition-all hover:-translate-y-1 h-full flex flex-col">
+                <div className="bg-white rounded-3xl p-8 shadow-md border border-[#8A9A86]/10 hover:shadow-xl transition-all hover:-translate-y-1 h-full flex flex-col">
                   <Stars count={t.stars} />
                   <p className="text-gray-700 leading-relaxed flex-1 mb-8 italic">&ldquo;{t.quote}&rdquo;</p>
                   <div className="flex items-center gap-4">
@@ -548,7 +568,7 @@ export default function Home() {
       </section>
 
       {/* ── FAQ ── */}
-      <section className="py-24 px-6 bg-white">
+      <section className="py-24 px-6 bg-[#FDFBF7]">
         <div className="max-w-3xl mx-auto">
           <Reveal className="text-center mb-16">
             <h2 className="text-4xl font-bold text-primary mb-6">Preguntas frecuentes</h2>
@@ -571,10 +591,10 @@ export default function Home() {
       </section>
 
       {/* ── Wellhub ── */}
-      <section id="wellhub" className="py-24 px-6 bg-white">
+      <section id="wellhub" className="py-24 px-6 bg-[#2D312E]">
         <div className="max-w-6xl mx-auto">
           <Reveal>
-            <div className="bg-gradient-to-r from-[#2D312E] to-[#404541] rounded-[3rem] p-10 md:p-16 text-white shadow-2xl flex flex-col md:flex-row items-center justify-between gap-12">
+            <div className="bg-gradient-to-r from-[#3a4038] to-[#4a5047] rounded-[3rem] p-10 md:p-16 text-white shadow-2xl border border-white/10 flex flex-col md:flex-row items-center justify-between gap-12">
               <div className="max-w-xl">
                 <h2 className="text-4xl md:text-5xl font-bold mb-6">¡Somos socios Wellhub!</h2>
                 <div className="h-1 w-20 bg-secondary rounded-full mb-8" />
